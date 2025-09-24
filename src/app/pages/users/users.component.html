@@ -1,0 +1,19 @@
+<div class="content my-elevation-z4">
+  <nav mat-tab-nav-bar ngClass="tab">
+    <a mat-tab-link routerLink="/users/myProfile">
+      <mat-icon>person</mat-icon>
+      Profile
+    </a>
+    <a mat-tab-link routerLink="/users/myDisciplines">
+      <mat-icon>play_lesson</mat-icon>
+      Disciplines
+    </a>
+    <a mat-tab-link routerLink="/users/myConquest">
+      <mat-icon>workspace_premium</mat-icon>
+      Conquest
+    </a>
+  </nav>
+  <div class="container">
+    <router-outlet />
+  </div>
+</div>

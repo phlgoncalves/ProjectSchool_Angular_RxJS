@@ -1,10 +1,59 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav class="sidenav" [opened]="isSmallScreen" [fixedInViewport]="true" [mode]="sidenavMode">
+<mat-toolbar class="toolbar-menu" color="secoundary" [class.mat-elevation-z4]="applyShadow">
+  <span *ngIf="popText">{{menuName}}</span>
+  <!-- <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button> -->
+</mat-toolbar>
+<mat-drawer-container [hasBackdrop]="sidenavMode === 'over'" class="drawer-container">
+  <!-- Drawer lateral -->
+  <mat-drawer #sidenav class="sidenav mat-elevation-z2" [opened]="isSmallScreen" [mode]="sidenavMode">
     <mat-toolbar color="primary">
-      Smart Examples
+      <img class="avatar mat-elevation-z4"
+        src="https://imagensempng.com.br/wp-content/uploads/2021/09/Icone-usuario-Png.png" alt="avatar">
+      <a routerLink="/users" class="name">Pedro Gonçalves</a>
+      <p class="designation">Junior Developer</p>
     </mat-toolbar>
+    <mat-divider></mat-divider>
     <mat-nav-list>
-      <a mat-list-item routerLink="/users">Users</a>
+      <a *ngFor="let item of items_menu" mat-list-item [routerLink]="item.link" routerLinkActive="active">
+        <mat-icon fontSet="fa" [fontIcon]="item.icon"></mat-icon>
+        <span>{{item.label}}</span>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <!-- Conteúdo principal -->
+  <mat-drawer-content>
+    <mat-toolbar class="toolbar-submenu" color="primary">
+      <div class="toolbar-submenu-top">
+        <button matTooltip="{{sidenav.opened ? 'Fechar menu' : 'Abrir menu'}}" matTooltipPosition="right"
+          mat-icon-button class="example-icon" (click)="sidenav.toggle()">
+          <mat-icon>{{sidenav.opened ? 'close' : 'menu'}}</mat-icon>
+        </button>
+      </div>
+      <div class="toolbar-submenu-title">
+        <span *ngIf="!popText">{{menuName}}</span>
+      </div>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+<!-- <mat-sidenav-container>
+  <mat-sidenav #sidenav class="sidenav mat-elevation-z2" [opened]="isSmallScreen" [fixedInViewport]="true"
+    [mode]="sidenavMode">
+    <mat-toolbar color="primary">
+      <img class="avatar mat-elevation-z4"
+        src="https://imagensempng.com.br/wp-content/uploads/2021/09/Icone-usuario-Png.png" alt="avatar">
+      <a routerLink="/users" class="name">Pedro Gonçalves</a>
+      <p class="designation">Junior Developer</p>
+    </mat-toolbar>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
       <a *ngFor="let item of items_menu" mat-list-item [routerLink]="item.link" routerLinkActive="active">
         <mat-icon fontSet="fa" [fontIcon]="item.icon"></mat-icon>
         <span>{{item.label}}</span>
@@ -13,23 +62,18 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar class="toolbar-menu" color="primary" [class.mat-elevation-z4]="applyShadow">
-      <button mat-icon-button class="example-icon" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span *ngIf="popText">My App</span>
-      <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
-    </mat-toolbar>
     <mat-toolbar class="toolbar-submenu" color="primary">
-      <span *ngIf="!popText">My App</span>
+      <div class="toolbar-submenu-top">
+        <button matTooltip="{{sidenav.opened ? 'Fechar menu' : 'Abrir menu'}}" matTooltipPosition="right"
+          mat-icon-button class="example-icon" (click)="sidenav.toggle()">
+          <mat-icon>{{sidenav.opened ? 'close' : 'menu'}}</mat-icon>
+        </button>
+      </div>
+      <div class="toolbar-submenu-title">
+        <span *ngIf="!popText">My App</span>
+      </div>
     </mat-toolbar>
     <router-outlet />
 
   </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->

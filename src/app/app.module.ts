@@ -4,10 +4,12 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialsModule } from './shared/materials/materials.module';
+import { ToolbarMenuComponent } from "./shared/components/toolbar-menu/toolbar-menu.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ToolbarMenuComponent
   ],
   imports: [
     BrowserModule,

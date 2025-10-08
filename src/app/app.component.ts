@@ -50,14 +50,14 @@ export class AppComponent implements OnInit {
     this.applyShadow = scroll >= SHADOW_LIMIT;
   }
 
-  ngAfterContentInit(): void {
+  ngAfterViewInit(): void {
     this.brackpointObserver
       .observe(['(max-width: 800px)'])
       .subscribe((res) => this.isSmallScreen = res.matches)
   }
 
   get sidenavMode() {
-    return this.isSmallScreen ? 'over' : 'push'
+    return this.isSmallScreen ? 'over' : 'side'
   }
 
 }

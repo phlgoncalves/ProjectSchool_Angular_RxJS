@@ -3,7 +3,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { filter, fromEvent, map } from 'rxjs';
 import { MenuItem } from './shared/models/menuItem';
 import { menuItems } from './shared/models/menu';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 export const SCROLL_CONTAINER = 'mat-drawer-content';
 export const TEXT_LIMIT = 50;
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   menuName = '';
   private brackpointObserver: BreakpointObserver = inject(BreakpointObserver);
   private route: Router = inject(Router);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   ngOnInit(): void {
     const content = document.getElementsByClassName(SCROLL_CONTAINER)[0];
@@ -32,17 +33,11 @@ export class AppComponent implements OnInit {
       )
       .subscribe((value: number) => this.determineHeader(value))
 
-      this.route.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(event => event as NavigationEnd)
-      ).subscribe((event: NavigationEnd) =>{
-        let moduleName = event.url.split('/')[1]
-
-        this.menuName = this.items_menu.filter(
-          (item: MenuItem) => item.link == `/${moduleName}`
-        )[0].label
-
-      })
+    this.route.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.menuName = this.activatedRoute.firstChild?.snapshot.routeConfig?.path ?? '';
+    })
   }
 
   determineHeader(scroll: number) {

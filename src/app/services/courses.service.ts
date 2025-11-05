@@ -18,8 +18,8 @@ export class CoursesService {
       url = `${url}&category=${category}`
 
     if (search)
-      url = `${url}&name_like=${search}`
-    return this.http.get<Course[]>(`${url}`, { observe: 'response' }).pipe(take(1));
+      url = `${url}&q=${search}`
+    return this.http.get<Course[]>(`${url}`, { observe: 'response' }).pipe(take(1))
   }
 
   getById(id: number): Observable<Course[]> {
@@ -34,7 +34,7 @@ export class CoursesService {
     return this.http.put<Course[]>(`${this.baseURL}/${id}`, course).pipe(take(1));
   }
 
-  delete(id: number): Observable<Course[]> {
-    return this.http.delete<Course[]>(`${this.baseURL}/${id}`).pipe(take(1));
+  public delete(id: number): Observable<Course[]> {
+    return this.http.delete<Course[]>(`${this.baseURL}/${id}`).pipe(take(1))
   }
 }

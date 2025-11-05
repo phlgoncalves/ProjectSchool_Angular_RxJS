@@ -3,8 +3,6 @@
     <mat-form-field class="form-field-category">
       <mat-label>Categoria</mat-label>
       <mat-select formControlName="category">
-        <mat-select-trigger>
-        </mat-select-trigger>
         <mat-option value="">Todas</mat-option>
         <mat-option *ngFor="let item of categoryValue" [value]="item">
           {{ item }}

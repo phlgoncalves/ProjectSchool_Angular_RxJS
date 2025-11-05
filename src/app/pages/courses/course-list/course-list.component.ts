@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Category, Course } from '../../../shared/models/course';
 import { CoursesService } from '../../../services/courses.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpResponse } from '@angular/common/http';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,12 +13,13 @@ import { debounceTime } from 'rxjs';
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.scss'
 })
-export class CourseListComponent implements OnInit {
+export class CourseListComponent implements OnInit, OnDestroy {
   courseList: Course[] = [];
   private courseService = inject(CoursesService);
   private fb = inject(FormBuilder);
   categoryValue = Object.values(Category);
   form!: FormGroup;
+  sub!: Subscription;
 
   totalCount: number = 0;
   currentPage: number = 1;
@@ -53,6 +54,10 @@ export class CourseListComponent implements OnInit {
     this.getCourses(1, 5, '', '');
   }
 
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   doSearch(): void {
     this.getCourses(
       this.currentPage,
@@ -63,7 +68,8 @@ export class CourseListComponent implements OnInit {
   }
 
   getCourses(currentPage: number, pageSize: number, category: string, search: string): void {
-    this.courseService.get(currentPage, pageSize, category, search)
+    this.sub = this.courseService
+      .get(currentPage, pageSize, category, search)
       .subscribe((response: HttpResponse<any>) => {
         this.courseList = response.body as Course[];
         let totalCount = response.headers.get('X-Total-Count')

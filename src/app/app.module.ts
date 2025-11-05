@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialsModule } from './shared/materials/materials.module';
 import { ToolbarMenuComponent } from "./shared/components/toolbar-menu/toolbar-menu.component";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ToolbarMenuComponent } from "./shared/components/toolbar-menu/toolbar-m
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MaterialsModule
+    MaterialsModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration(withEventReplay())

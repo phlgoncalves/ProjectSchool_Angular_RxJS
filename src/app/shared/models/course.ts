@@ -9,18 +9,18 @@ export interface Course {
 }
 
 export enum Category {
-  Tecnlogia = 'Tecnlogia',
+  Tecnologia = 'Tecnologia',
   Arte = 'Arte',
-  Culinaria = 'Culinaria',
-  Financas = 'Financas',
+  Culinaria = 'Culinária',
+  Financas = 'Finanças',
   Psicologia = 'Psicologia',
   Marketing = 'Marketing',
   Fotografia = 'Fotografia',
   Escrita = 'Escrita',
-  Musica = 'Musica',
+  Musica = 'Música',
   CienciasAmbientais = 'Ciências Ambientais',
   Moda = 'Moda',
   Comunicacao = 'Comunicação',
   Filosofia = 'Filosofia',
-  Saude = 'Saude'
+  Saude = 'Saúde'
 }

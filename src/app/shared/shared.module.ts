@@ -3,6 +3,7 @@ import { ToolbarTitleComponent } from './components/toolbar-title/toolbar-title.
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,13 +11,17 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     MatToolbarModule,
-    MatIconModule
-],
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   declarations: [
     ToolbarTitleComponent
   ],
   exports: [
-    ToolbarTitleComponent
+    ToolbarTitleComponent,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

@@ -22,7 +22,7 @@
   </div>
 </form>
 
-<div class="container-courses">
+<div class="container-courses" *ngIf="courseData | async; else loading">
   <div class="container-cards" *ngFor="let course of courseList">
     <mat-card class="mat-elevation-z4" appearance="outlined">
       <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
@@ -47,7 +47,14 @@
         </button>
       </mat-card-actions>
     </mat-card>
-
   </div>
-
+  <div class="filter-response" *ngIf="!courseList.length">
+    <br>
+    <p>Nenhum curso encontrado para o seu filtro: </p>
+    <p *ngIf="f.category.value"> <b>Categoria</b> {{f.category.value}} </p>
+    <p *ngIf="f.search.value"> <b>Filtr:</b> {{f.search.value}} </p>
+  </div>
 </div>
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

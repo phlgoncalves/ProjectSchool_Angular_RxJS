@@ -3,8 +3,9 @@ import { Category, Course } from '../../../shared/models/course';
 import { CoursesService } from '../../../services/courses.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { catchError, debounceTime, EMPTY, Observable, tap } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
-import { debounceTime, Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -13,13 +14,15 @@ import { debounceTime, Subscription } from 'rxjs';
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.scss'
 })
-export class CourseListComponent implements OnInit, OnDestroy {
+export class CourseListComponent implements OnInit {
   courseList: Course[] = [];
   private courseService = inject(CoursesService);
   private fb = inject(FormBuilder);
   categoryValue = Object.values(Category);
   form!: FormGroup;
-  sub!: Subscription;
+  courseData!: Observable<any>;
+  private snackBar = inject(MatSnackBar);
+
 
   totalCount: number = 0;
   currentPage: number = 1;
@@ -54,10 +57,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.getCourses(1, 5, '', '');
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
   doSearch(): void {
     this.getCourses(
       this.currentPage,
@@ -68,13 +67,21 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   getCourses(currentPage: number, pageSize: number, category: string, search: string): void {
-    this.sub = this.courseService
+    this.courseData = this.courseService
       .get(currentPage, pageSize, category, search)
-      .subscribe((response: HttpResponse<any>) => {
-        this.courseList = response.body as Course[];
-        let totalCount = response.headers.get('X-Total-Count')
-        this.totalCount = totalCount ? Number(totalCount) : 0;
-      })
+      .pipe(
+        tap((response: HttpResponse<any>) => {
+          this.courseList = response.body as Course[];
+          let totalCount = response.headers.get('X-Total-Count');
+          this.totalCount = totalCount ? Number(totalCount) : 0;
+        }),
+        catchError((err: string) => {
+          this.snackBar.open(err, 'Close', {
+            duration: 4000
+          });
+          return EMPTY;
+        })
+      )
   }
 
   handlePageEvent(e: PageEvent): void {
